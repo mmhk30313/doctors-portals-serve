@@ -27,6 +27,17 @@ app.get('/', (req, res) => {
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const appointmentCollection = client.db("doctorsPortals").collection("appointments");
+    
+    app.get('/appointments', (req, res) =>{
+        // console.log('Hello')
+        // res.send("Hello")
+        appointmentCollection.find({})
+        .toArray((err, documents) => {
+            console.log(documents);
+            res.send(documents);
+        })
+    })
+
     app.post('/addAppointment', (req,res) => {
         const appointment = req.body; 
         // console.log(appointment);
@@ -37,6 +48,7 @@ client.connect(err => {
         })
 
     })
+
     app.post('/appointmentsByDate', (req,res) => {
         const date = req.body; 
         // console.log(date.date);
